@@ -6,6 +6,9 @@ import java.util.List;
 
 import video.rental.demo.domain.Customer;
 import video.rental.demo.domain.Rating;
+import video.rental.demo.domain.RatingTwelve;
+import video.rental.demo.domain.RatingFifteen;
+import video.rental.demo.domain.RatingEighteen;
 import video.rental.demo.domain.Rental;
 import video.rental.demo.domain.Repository;
 import video.rental.demo.domain.Video;
@@ -71,7 +74,7 @@ public class Interactor {
 			builder.append(
 					"Video type: " + video.getVideoType() + 
 					"\tPrice code: " + video.getPriceCode() + 
-					"\tRating: " + video.getVideoRating() +
+					"\tRating: " + video.getVideoRating().getRating() +
 					"\tTitle: " + video.getTitle() + "\n"
 					); 
 		}
@@ -135,12 +138,25 @@ public class Interactor {
 	}
 	
 	// User가 register하는 것이 아닌 괌점에서는 Date는 Presentation 로직이 아니다.
+	public void registerVideo(String title, int videoType, int priceCode, int videoRating, LocalDate registeredDate) {
+		Rating rating;
+		if (videoRating == 1) rating = new RatingTwelve();
+		else if (videoRating == 2) rating = new RatingFifteen();
+		else if (videoRating == 3) rating = new RatingEighteen();
+		else throw new IllegalArgumentException("No such rating " + videoRating);
+		
+		Video video = new Video(title, videoType, priceCode, rating, registeredDate);
+	
+		getRepository().saveVideo(video);
+	}
+
+	// Testability 관점에서 내부적으로 시간을 설정하는 것은 불편하다.
 	public void registerVideo(String title, int videoType, int priceCode, int videoRating) {
 		LocalDate registeredDate = LocalDate.now();
 		Rating rating;
-		if (videoRating == 1) rating = Rating.TWELVE;
-		else if (videoRating == 2) rating = Rating.FIFTEEN;
-		else if (videoRating == 3) rating = Rating.EIGHTEEN;
+		if (videoRating == 1) rating = new RatingTwelve();
+		else if (videoRating == 2) rating = new RatingFifteen();
+		else if (videoRating == 3) rating = new RatingEighteen();
 		else throw new IllegalArgumentException("No such rating " + videoRating);
 		
 		Video video = new Video(title, videoType, priceCode, rating, registeredDate);
