@@ -204,35 +204,43 @@ public class GraphicUI extends JFrame {
 	}
 
 	private void registerVideo() {
-		String title = titleField.getText().toString();
-		String videoTypeString = videoTypeSpinner.getValue().toString();
-		int videoType;
-		if (videoTypeString.equals("Regular"))
-			videoType = 1;
-		else if (videoTypeString.equals("New"))
-			videoType = 2;
-		else // Children
-			videoType = 3;
+		interactor.registerVideo(extractVideoTitle(), extractVideoType(), extractVideoPriceCode(), extractVideorating());
+	}
 
-		String priceCodeString = priceCodeSpinner.getValue().toString();
-		int priceCode;
-		if (priceCodeString.equals("VHS"))
-			priceCode = 1;
-		else if (priceCodeString.equals("CD"))
-			priceCode = 2;
-		else // DVD
-			priceCode = 3;
+	private String extractVideoTitle() {
+		return titleField.getText().toString();
+	}
 
+	private int extractVideorating() {
 		String ratingString = ratingSpinner.getValue().toString();
-		int videoRating;
-		if (ratingString.equals("Twelve"))
-			videoRating = 1;
-		else if (ratingString.equals("Fifteen"))
-			videoRating = 2;
-		else // Eighteen
-			videoRating = 3;
 		
-		interactor.registerVideo(title, videoType, priceCode, videoRating);
+		if (ratingString.equals("Twelve"))
+			return 1;
+		else if (ratingString.equals("Fifteen"))
+			return 2;
+		else // Eighteen
+			return 3;
+	}
+
+	private int extractVideoPriceCode() {
+		String priceCodeString = priceCodeSpinner.getValue().toString();
+		
+		if (priceCodeString.equals("VHS"))
+			return 1;
+		else if (priceCodeString.equals("CD"))
+			return 2;
+		else // DVD
+			return 3;
+	}
+
+	private int extractVideoType() {
+		String videoTypeString = videoTypeSpinner.getValue().toString();
+		if (videoTypeString.equals("Regular"))
+			return 1;
+		else if (videoTypeString.equals("New"))
+			return 2;
+		else // Children
+			return 3;
 	}
 
 	private void makeButton(String title, ActionListener listener, int x, int y, int w, int h) {
