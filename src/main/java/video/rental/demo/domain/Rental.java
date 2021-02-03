@@ -91,4 +91,36 @@ public class Rental {
 
 	    return days == 0 ? 1 : days + 1;
 	}
+
+	double getCharge() {
+		double eachCharge = 0;
+		switch (getVideo().getPriceCode()) {
+		case Video.REGULAR:
+			eachCharge += 2;
+			if (getDaysRented() > 2)
+				eachCharge += (getDaysRented() - 2) * 1.5;
+			break;
+		case Video.NEW_RELEASE:
+			eachCharge = getDaysRented() * 3;
+			break;
+		case Video.CHILDREN:
+			eachCharge += 1.5;
+			if (getDaysRented() > 3)
+				eachCharge += (getDaysRented() - 3) * 1.5;
+			break;
+		}
+		return eachCharge;
+	}
+
+	int calculatePoint() {
+		int eachPoint = 0;
+		
+		eachPoint++;
+		if ((getVideo().getPriceCode() == Video.NEW_RELEASE))
+			eachPoint++;
+	
+		if (getDaysRented() > getDaysRentedLimit())
+			eachPoint -= Math.min(eachPoint, getVideo().getLateReturnPointPenalty());
+		return eachPoint;
+	}
 }
