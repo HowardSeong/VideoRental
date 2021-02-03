@@ -31,7 +31,7 @@ public class VideoRentalTest {
 
 	@Test
 	@EnabledOnOs({OS.MAC, OS.LINUX})
-//	@Disabled
+	@Disabled
 	void runResult_should_match_goldenmaster1() {
 		// Given (Arrange)
 		String expected = goldenMaster.load();
@@ -45,7 +45,7 @@ public class VideoRentalTest {
 	
 	@Test
 	@EnabledOnOs({OS.WINDOWS})
-//	@Disabled
+	@Disabled
 	void runResult_should_match_goldenmaster2() {
 		// Given (Arrange)
 		String expected = goldenMaster.load();
