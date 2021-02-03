@@ -13,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import video.rental.demo.util.VideoRentalUtil;
+
 @Entity
 public class Customer {
 	@Id
@@ -120,27 +122,18 @@ public class Customer {
 
 	int getAge() {
 		// calculate customer's age in years and months
-	
-		// parse customer date of birth
-		Calendar calDateOfBirth = Calendar.getInstance();
+		Calendar calDateOfBirth = null;
 		try {
-			calDateOfBirth.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(getDateOfBirth().toString()));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-	
-		// get current date
-		Calendar calNow = Calendar.getInstance();
-		calNow.setTime(new java.util.Date());
-	
+			calDateOfBirth = VideoRentalUtil.parseDate(
+				new SimpleDateFormat("yyyy-MM-dd").parse(this.getDateOfBirth().toString()));
+		} catch (ParseException e) {}
+		Calendar calNow = VideoRentalUtil.parseDate(new java.util.Date());
+
 		// calculate age different in years and months
 		int ageYr = (calNow.get(Calendar.YEAR) - calDateOfBirth.get(Calendar.YEAR));
 		int ageMo = (calNow.get(Calendar.MONTH) - calDateOfBirth.get(Calendar.MONTH));
 	
 		// decrement age in years if month difference is negative
-		if (ageMo < 0) {
-			ageYr--;
-		}
-		return ageYr;
+		return (ageMo < 0 ? ageYr - 1 : ageYr);
 	}
 }
