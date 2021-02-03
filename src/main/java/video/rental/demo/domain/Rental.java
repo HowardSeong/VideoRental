@@ -69,19 +69,7 @@ public class Rental {
 	}
 
 	public int getDaysRentedLimit() {
-		int limit = 0;
-		switch (video.getVideoType()) {
-		case Video.VHS:
-			limit = 5;
-			break;
-		case Video.CD:
-			limit = 3;
-			break;
-		case Video.DVD:
-			limit = 2;
-			break;
-		}
-		return limit;
+		return getVideo().getDaysRentedLimit();
 	}
 
 	public int getDaysRented() {
@@ -93,34 +81,10 @@ public class Rental {
 	}
 
 	double getCharge() {
-		double eachCharge = 0;
-		switch (getVideo().getPriceCode()) {
-		case Video.REGULAR:
-			eachCharge += 2;
-			if (getDaysRented() > 2)
-				eachCharge += (getDaysRented() - 2) * 1.5;
-			break;
-		case Video.NEW_RELEASE:
-			eachCharge = getDaysRented() * 3;
-			break;
-		case Video.CHILDREN:
-			eachCharge += 1.5;
-			if (getDaysRented() > 3)
-				eachCharge += (getDaysRented() - 3) * 1.5;
-			break;
-		}
-		return eachCharge;
+		return getVideo().getCharge(getDaysRented());
 	}
 
-	int calculatePoint() {
-		int eachPoint = 0;
-		
-		eachPoint++;
-		if ((getVideo().getPriceCode() == Video.NEW_RELEASE))
-			eachPoint++;
-	
-		if (getDaysRented() > getDaysRentedLimit())
-			eachPoint -= Math.min(eachPoint, getVideo().getLateReturnPointPenalty());
-		return eachPoint;
+	int getPoint() {
+		return getVideo().getPoint(getDaysRented());
 	}
 }

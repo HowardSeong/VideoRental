@@ -73,10 +73,10 @@ public class Customer {
 
 		for (Rental each : rentals) {
 			builder.append("\t" + each.getVideo().getTitle() + "\tDays rented: " + each.getDaysRented() + "\tCharge: " + each.getCharge()
-					+ "\tPoint: " + each.calculatePoint() + "\n");
+					+ "\tPoint: " + each.getPoint() + "\n");
 
 			totalCharge += each.getCharge();
-			totalPoint += each.calculatePoint();
+			totalPoint += each.getPoint();
 		}
 		
 		builder.append("Total charge: " + totalCharge + "\tTotal Point:" + totalPoint + "\n");
