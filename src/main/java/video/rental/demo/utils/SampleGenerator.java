@@ -5,6 +5,9 @@ import java.util.List;
 
 import video.rental.demo.domain.Customer;
 import video.rental.demo.domain.Rating;
+import video.rental.demo.domain.RatingTwelve;
+import video.rental.demo.domain.RatingFifteen;
+import video.rental.demo.domain.RatingEighteen;
 import video.rental.demo.domain.Rental;
 import video.rental.demo.domain.Repository;
 import video.rental.demo.domain.Video;
@@ -25,11 +28,11 @@ public class SampleGenerator {
 		repository.saveCustomer(brown);
 		repository.saveCustomer(shawn);
 
-		Video v1 = new Video("V1", Video.CD, Video.REGULAR, Rating.FIFTEEN, LocalDate.of(2018, 1, 1));
+		Video v1 = new Video("V1", Video.CD, Video.REGULAR, new RatingFifteen(), LocalDate.of(2018, 1, 1));
 		v1.setRented(true);
-		Video v2 = new Video("V2", Video.DVD, Video.NEW_RELEASE, Rating.TWELVE, LocalDate.of(2018, 3, 1));
+		Video v2 = new Video("V2", Video.DVD, Video.NEW_RELEASE, new RatingTwelve(), LocalDate.of(2018, 3, 1));
 		v2.setRented(true);
-        Video v3 = new Video("V3", Video.VHS, Video.NEW_RELEASE, Rating.EIGHTEEN, LocalDate.of(2018, 3, 1));
+        Video v3 = new Video("V3", Video.VHS, Video.NEW_RELEASE, new RatingEighteen(), LocalDate.of(2018, 3, 1));
 
 		repository.saveVideo(v1);
 		repository.saveVideo(v2);
