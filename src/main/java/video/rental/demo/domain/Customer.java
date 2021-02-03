@@ -12,6 +12,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 @Entity
 public class Customer {
@@ -51,43 +55,79 @@ public class Customer {
 	public void setRentals(List<Rental> rentals) {
 		this.rentals = rentals;
 	}
-
-	public String getJsonReport() {
-		// ...
+	
+	public String getXMLReport() throws ParserConfigurationException {
 		return null;
 	}
-	
-	public String getXMLReport() {
-		// ...
-		return null;
+
+	@SuppressWarnings("unchecked")
+	public String getJsonReport() {
+		JSONObject jobj = new JSONObject();
+		jobj.put("name", getName());
+		
+		JSONArray jarr = new JSONArray();
+		for (Rental each : getRentals()) {
+			JSONObject videoObj = new JSONObject();
+			videoObj.put("Video Title", each.getVideo().getTitle());
+			videoObj.put("Days rented", each.getDaysRented());
+			videoObj.put("Charge", each.getCharge());
+			videoObj.put("Point", each.getPoint());
+			jarr.add(videoObj);
+		}
+		jobj.put("Rentals", jarr);
+		jobj.put("Total charge", getTotalCharge());
+		jobj.put("Total Point", getTotalPoint());
+
+		JSONArray couponArr = new JSONArray();
+		if (getTotalPoint() >= 10) {
+			couponArr.add("Congrat! You earned one free coupon");
+		}
+		if (getTotalPoint() >= 30) {
+			couponArr.add("Congrat! You earned two free coupon");
+		}
+		jobj.put("Coupons", couponArr);
+		
+		return jobj.toJSONString();
 	}
 	
 	public String getReport() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Customer Report for " + getName() + "\n");
 
-		List<Rental> rentals = getRentals();
-
-		double totalCharge = 0;
-		int totalPoint = 0;
-
-		for (Rental each : rentals) {
+		for (Rental each : getRentals()) {
 			builder.append("\t" + each.getVideo().getTitle() + "\tDays rented: " + each.getDaysRented() + "\tCharge: " + each.getCharge()
 					+ "\tPoint: " + each.getPoint() + "\n");
-
-			totalCharge += each.getCharge();
-			totalPoint += each.getPoint();
 		}
 		
-		builder.append("Total charge: " + totalCharge + "\tTotal Point:" + totalPoint + "\n");
+		builder.append("Total charge: " + getTotalCharge() + "\tTotal Point:" + getTotalPoint() + "\n");
 
-		if (totalPoint >= 10) {
+		if (getTotalPoint() >= 10) {
 			builder.append("Congrat! You earned one free coupon");
 		}
-		if (totalPoint >= 30) {
+		if (getTotalPoint() >= 30) {
 			builder.append("Congrat! You earned two free coupon");
 		}
 		return builder.toString();
+	}
+	
+	private int getTotalPoint() {
+		int totalPoint = 0;
+		
+		for (Rental each : rentals) {
+			totalPoint += each.getPoint();
+		}
+		
+		return totalPoint;
+	}
+	
+	private double getTotalCharge() {
+		double totalCharge = 0;
+		
+		for (Rental each : rentals) {
+			totalCharge += each.getCharge();
+		}
+		
+		return totalCharge;
 	}
 
 	int getAge() {
