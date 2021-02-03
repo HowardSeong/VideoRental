@@ -63,7 +63,8 @@ public class Customer {
 	}
 	
 	public String getReport() {
-		String result = "Customer Report for " + getName() + "\n";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Customer Report for " + getName() + "\n");
 
 		List<Rental> rentals = getRentals();
 
@@ -71,22 +72,22 @@ public class Customer {
 		int totalPoint = 0;
 
 		for (Rental each : rentals) {
-			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + each.getDaysRented() + "\tCharge: " + each.getCharge()
-					+ "\tPoint: " + each.calculatePoint() + "\n";
+			builder.append("\t" + each.getVideo().getTitle() + "\tDays rented: " + each.getDaysRented() + "\tCharge: " + each.getCharge()
+					+ "\tPoint: " + each.calculatePoint() + "\n");
 
 			totalCharge += each.getCharge();
 			totalPoint += each.calculatePoint();
 		}
 		
-		result += "Total charge: " + totalCharge + "\tTotal Point:" + totalPoint + "\n";
+		builder.append("Total charge: " + totalCharge + "\tTotal Point:" + totalPoint + "\n");
 
 		if (totalPoint >= 10) {
-			System.out.println("Congrat! You earned one free coupon");
+			builder.append("Congrat! You earned one free coupon");
 		}
 		if (totalPoint >= 30) {
-			System.out.println("Congrat! You earned two free coupon");
+			builder.append("Congrat! You earned two free coupon");
 		}
-		return result;
+		return builder.toString();
 	}
 
 	int getAge() {

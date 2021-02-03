@@ -3,7 +3,6 @@ package video.rental.demo;
 import video.rental.demo.application.Interactor;
 import video.rental.demo.domain.Repository;
 import video.rental.demo.infrastructure.RepositoryMemImpl;
-import video.rental.demo.presentation.CmdUI;
 import video.rental.demo.presentation.GraphicUI;
 
 public class Main {
