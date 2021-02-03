@@ -49,6 +49,16 @@ public class Customer {
 		this.rentals = rentals;
 	}
 
+	public String getJsonReport() {
+		// ...
+		return null;
+	}
+	
+	public String getXMLReport() {
+		// ...
+		return null;
+	}
+	
 	public String getReport() {
 		String result = "Customer Report for " + getName() + "\n";
 

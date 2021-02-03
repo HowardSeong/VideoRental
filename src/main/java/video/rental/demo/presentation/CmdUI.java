@@ -57,7 +57,7 @@ public class CmdUI {
 		System.out.println("Enter customer code: ");
 		int customerCode = scanner.nextInt();
 
-		interactor.clearRentals(customerCode);
+		System.out.print(interactor.clearRentals(customerCode));
 	}
 
 	public void returnVideo() {
@@ -66,14 +66,14 @@ public class CmdUI {
 
 		System.out.println("Enter video title to return: ");
 		String videoTitle = scanner.next();
-
+		
 		interactor.returnVideo(customerCode, videoTitle);
 	}
 
 	public void listVideos() {
 		System.out.println("List of videos");
 
-		interactor.listVideos();
+		System.out.print(interactor.listVideos());
 		
 		System.out.println("End of list");
 	}
@@ -103,7 +103,7 @@ public class CmdUI {
 		interactor.rentVideo(code, videoTitle);
 	}
 
-	// Control Coupling Smells
+	// Control Coupling
 	public void register(String object) {
 		if (object.equals("customer")) {
 			System.out.println("Enter customer name: ");
