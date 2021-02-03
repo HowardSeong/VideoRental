@@ -12,7 +12,7 @@ import video.rental.demo.application.Interactor;
 import video.rental.demo.domain.Repository;
 import video.rental.demo.infrastructure.RepositoryMemImpl;
 import video.rental.demo.presentation.CmdUI;
-import video.rental.demo.util.SampleGenerator;
+import video.rental.demo.utils.SampleGenerator;
 
 public class GoldenMaster {
 	

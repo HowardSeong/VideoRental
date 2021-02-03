@@ -22,17 +22,19 @@ public class Interactor {
 		this.repository = repository;
 	}
 
-	public void clearRentals(int customerCode) {
+	public String clearRentals(int customerCode) {
+		StringBuilder builder = new StringBuilder();
+		
 		Customer foundCustomer = getRepository().findCustomerById(customerCode);
 	
 		if (foundCustomer == null) {
-			System.out.println("No customer found");
+			builder.append("No customer found\n");
 		} else {
-			System.out.println("Id: " + foundCustomer.getCode() + "\nName: " + foundCustomer.getName() + "\tRentals: "
-					+ foundCustomer.getRentals().size());
+			builder.append("Id: " + foundCustomer.getCode() + "\nName: " + foundCustomer.getName() + "\tRentals: "
+					+ foundCustomer.getRentals().size() + "\n");
 			for (Rental rental : foundCustomer.getRentals()) {
-				System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ");
-				System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode());
+				builder.append("\tTitle: " + rental.getVideo().getTitle() + " ");
+				builder.append("\tPrice Code: " + rental.getVideo().getPriceCode());
 			}
 	
 			List<Rental> rentals = new ArrayList<Rental>();
@@ -40,6 +42,8 @@ public class Interactor {
 	
 			getRepository().saveCustomer(foundCustomer);
 		}
+		
+		return builder.toString();
 	}
 
 	public void returnVideo(int customerCode, String videoTitle) {
@@ -61,41 +65,48 @@ public class Interactor {
 		getRepository().saveCustomer(foundCustomer);
 	}
 
-	public void listVideos() {
+	public String listVideos() {
+		StringBuilder builder = new StringBuilder();
+		
 		List<Video> videos = getRepository().findAllVideos();
 	
 		for (Video video : videos) {
-			System.out.println(
+			builder.append(
 					"Video type: " + video.getVideoType() + 
 					"\tPrice code: " + video.getPriceCode() + 
 					"\tRating: " + video.getVideoRating().getRating() +
 					"\tTitle: " + video.getTitle()
 					); 
 		}
+		
+		return builder.toString();
 	}
 
-	public void listCustomers() {
+	public String listCustomers() {
+		StringBuilder builder = new StringBuilder();
+		
 		List<Customer> customers = getRepository().findAllCustomers();
 	
 		for (Customer customer : customers) {
-			System.out.println("ID: " + customer.getCode() + "\nName: " + customer.getName() + "\tRentals: "
-					+ customer.getRentals().size());
+			builder.append("ID: " + customer.getCode() + "\nName: " + customer.getName() + "\tRentals: "
+					+ customer.getRentals().size() + "\n");
 			for (Rental rental : customer.getRentals()) {
-				System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ");
-				System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode());
-				System.out.println("\tReturn Status: " + rental.getStatus());
+				builder.append("\tTitle: " + rental.getVideo().getTitle() + " ");
+				builder.append("\tPrice Code: " + rental.getVideo().getPriceCode());
+				builder.append("\tReturn Status: " + rental.getStatus() + "\n");
 			}
 		}
+		
+		return builder.toString();
 	}
 
-	public void getCustomerReport(int code) {
+	public String getCustomerReport(int code) {
 		Customer foundCustomer = getRepository().findCustomerById(code);
 	
 		if (foundCustomer == null) {
-			System.out.println("No customer found");
+			return ("No customer found");
 		} else {
-			String result = foundCustomer.getReport();
-			System.out.println(result);
+			return foundCustomer.getReport();
 		}
 	}
 
@@ -142,7 +153,6 @@ public class Interactor {
 	// Testability 관점에서 내부적으로 시간을 설정하는 것은 불편하다.
 	public void registerVideo(String title, int videoType, int priceCode, int videoRating) {
 		LocalDate registeredDate = LocalDate.now();
-		
 		Rating rating;
 		if (videoRating == 1) rating = new RatingTwelve();
 		else if (videoRating == 2) rating = new RatingFifteen();
@@ -153,7 +163,7 @@ public class Interactor {
 	
 		getRepository().saveVideo(video);
 	}
-
+	
 	Repository getRepository() {
 		return repository;
 	}
