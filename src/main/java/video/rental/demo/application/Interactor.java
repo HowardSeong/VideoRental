@@ -75,7 +75,7 @@ public class Interactor {
 					"Video type: " + video.getVideoType() + 
 					"\tPrice code: " + video.getPriceCode() + 
 					"\tRating: " + video.getVideoRating().getRating() +
-					"\tTitle: " + video.getTitle()
+					"\tTitle: " + video.getTitle() + "\n"
 					); 
 		}
 		
