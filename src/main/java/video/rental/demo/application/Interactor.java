@@ -12,14 +12,17 @@ import video.rental.demo.domain.RatingEighteen;
 import video.rental.demo.domain.Rental;
 import video.rental.demo.domain.Repository;
 import video.rental.demo.domain.Video;
+import video.rental.demo.domain.VideoFactory;
 
 public class Interactor {
 
 	private Repository repository;
+	private VideoFactory factory;
 
-	public Interactor(Repository repository) {
+	public Interactor(Repository repository, VideoFactory factory) {
 		super();
 		this.repository = repository;
+		this.factory = factory;
 	}
 
 	public String clearRentals(int customerCode) {
@@ -106,7 +109,7 @@ public class Interactor {
 		if (foundCustomer == null) {
 			return ("No customer found");
 		} else {
-			return foundCustomer.getReport();
+			return foundCustomer.getJsonReport();
 		}
 	}
 
@@ -145,7 +148,7 @@ public class Interactor {
 		else if (videoRating == 3) rating = new RatingEighteen();
 		else throw new IllegalArgumentException("No such rating " + videoRating);
 		
-		Video video = new Video(title, videoType, priceCode, rating, registeredDate);
+		Video video = factory.createVideo(title, videoType, priceCode, rating, registeredDate);
 	
 		getRepository().saveVideo(video);
 	}
@@ -159,7 +162,7 @@ public class Interactor {
 		else if (videoRating == 3) rating = new RatingEighteen();
 		else throw new IllegalArgumentException("No such rating " + videoRating);
 		
-		Video video = new Video(title, videoType, priceCode, rating, registeredDate);
+		Video video = factory.createVideo(title, videoType, priceCode, rating, registeredDate);
 	
 		getRepository().saveVideo(video);
 	}

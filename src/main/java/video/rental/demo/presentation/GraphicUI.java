@@ -61,12 +61,12 @@ public class GraphicUI extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 
-		textArea = new JTextArea(6, 80);
+		textArea = new JTextArea(40, 10);
 		textArea.setEditable(false);
 		textArea.setVisible(true);
 		JScrollPane scroll = new JScrollPane(textArea);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scroll.setBounds(18, 249, 640, 133);
+		scroll.setBounds(18, 249, 640, 300);
 		getContentPane().add(scroll);
 
 		JLabel lblWelcomeToSs = new JLabel("Welcome To Premier Video Shop");
