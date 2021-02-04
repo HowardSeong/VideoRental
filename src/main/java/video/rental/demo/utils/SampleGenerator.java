@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import video.rental.demo.domain.Customer;
-import video.rental.demo.domain.Rating;
 import video.rental.demo.domain.RatingTwelve;
 import video.rental.demo.domain.RatingFifteen;
 import video.rental.demo.domain.RatingEighteen;

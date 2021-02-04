@@ -170,7 +170,6 @@ Customer Report for James
 	V2	Days rented: 1	Charge: 3.0	Point: 2
 Total charge: 5.0	Total Point:3
 
-
 Select a command !
 	 0. Quit
 	 1. List customers

@@ -15,6 +15,7 @@ public class Video {
 	private String title;
 	private Rating videoRating;
 	private int priceCode;
+	private Price price;
 
 	public static final int REGULAR = 1;
 	public static final int NEW_RELEASE = 2;
@@ -34,7 +35,7 @@ public class Video {
 	public Video(String title, int videoType, int priceCode, Rating videoRating, LocalDate registeredDate) {
 		this.title = title;
 		this.videoType = videoType;
-		this.priceCode = priceCode;
+		setPriceCode(priceCode);
 		this.videoRating = videoRating;
 		this.registeredDate = registeredDate;
 		this.rented = false;
@@ -59,9 +60,25 @@ public class Video {
 	public int getPriceCode() {
 		return priceCode;
 	}
+	
+	public double getCharge(int daysRented) {
+		return price.getCharge(daysRented);
+	}
 
 	public void setPriceCode(int priceCode) {
 		this.priceCode = priceCode;
+		
+		switch (priceCode) {
+		case Video.REGULAR:
+			price = new RegularPrice();
+			break;
+		case Video.NEW_RELEASE:
+			price = new NewReleasePrice();
+			break;
+		case Video.CHILDREN:
+			price = new ChildrenPrice();
+			break;
+		}
 	}
 
 	public String getTitle() {
@@ -104,5 +121,27 @@ public class Video {
 	public boolean isUnderAge(int age) {
 		// determine if customer is under legal age for rating
 		return this.videoRating.isUnderAge(age);
+	}
+
+	int getPoint(int daysRented) {
+		return (daysRented > getDaysRentedLimit()) ?
+			price.getPoint() - Math.min(price.getPoint(), getLateReturnPointPenalty()) :
+			price.getPoint();
+	}
+
+	int getDaysRentedLimit() {
+		int limit = 0;
+		switch (getVideoType()) {
+		case Video.VHS:
+			limit = 5;
+			break;
+		case Video.CD:
+			limit = 3;
+			break;
+		case Video.DVD:
+			limit = 2;
+			break;
+		}
+		return limit;
 	}
 }
